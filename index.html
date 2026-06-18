@@ -86,29 +86,40 @@ for(let i=0;i<40;i++){const side=i%2?1:-1;
 
 // ---- car factory (sleek, reflective, glowing lights) ----
 function makeCar(color, hero){const g=new THREE.Group();
- const paint=new THREE.MeshStandardMaterial({color,metalness:0.95,roughness:0.22});
+ const paint=new THREE.MeshStandardMaterial({color,metalness:0.85,roughness:0.3});
  const glass=new THREE.MeshStandardMaterial({color:0x0a0e18,metalness:0.6,roughness:0.05,emissive:0x0a1830,emissiveIntensity:0.4});
- const body=new THREE.Mesh(new THREE.BoxGeometry(1.92,0.42,4.3),paint);body.position.y=0.62;body.castShadow=true;g.add(body);
- const lower=new THREE.Mesh(new THREE.BoxGeometry(2.0,0.34,4.2),new THREE.MeshStandardMaterial({color:0x0a0a0e,metalness:0.5,roughness:0.5}));lower.position.y=0.36;g.add(lower);
- const nose=new THREE.Mesh(new THREE.BoxGeometry(1.78,0.3,1.2),paint);nose.position.set(0,0.78,-1.7);nose.castShadow=true;g.add(nose);
- const cabin=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.46,1.7),glass);cabin.position.set(0,1.0,0.25);g.add(cabin);
- const spoiler=new THREE.Mesh(new THREE.BoxGeometry(1.9,0.1,0.5),paint);spoiler.position.set(0,1.0,2.0);g.add(spoiler);
- const sp1=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.34,0.12),paint);sp1.position.set(-0.8,0.85,2.05);g.add(sp1);
- const sp2=sp1.clone();sp2.position.x=0.8;g.add(sp2);
- const wg=new THREE.CylinderGeometry(0.46,0.46,0.42,20),wm=new THREE.MeshStandardMaterial({color:0x09090b,roughness:0.85});
- const rimM=new THREE.MeshStandardMaterial({color:0x222,metalness:0.9,roughness:0.25});
- [[-1.02,-1.45],[1.02,-1.45],[-1.02,1.45],[1.02,1.45]].forEach(([x,z])=>{const w=new THREE.Mesh(wg,wm);w.rotation.z=Math.PI/2;w.position.set(x,0.46,z);w.castShadow=true;g.add(w);
-   const r=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.24,0.44,12),rimM);r.rotation.z=Math.PI/2;r.position.set(x,0.46,z);g.add(r);});
- const tl=new THREE.Mesh(new THREE.BoxGeometry(1.74,0.16,0.08),new THREE.MeshStandardMaterial({color:0x330000,emissive:0xff1418,emissiveIntensity:3}));tl.position.set(0,0.7,2.18);g.add(tl);
+ const dark=new THREE.MeshStandardMaterial({color:0x0a0a0e,metalness:0.4,roughness:0.6});
+ const wm=new THREE.MeshStandardMaterial({color:0x09090b,roughness:0.85});
+ const rimM=new THREE.MeshStandardMaterial({color:0x2a2a2e,metalness:0.95,roughness:0.2});
  if(hero){
-   const hb=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.14,0.08),new THREE.MeshStandardMaterial({color:0xfff,emissive:0xdfeaff,emissiveIntensity:3}));hb.position.set(0,0.74,-2.18);g.add(hb);
-   const under=new THREE.Mesh(new THREE.BoxGeometry(2.0,0.05,4.2),new THREE.MeshStandardMaterial({color:0x000,emissive:0x16e0ff,emissiveIntensity:2.2}));under.position.y=0.16;g.add(under);
-   const ug=new THREE.PointLight(0x16e0ff,1.6,9); ug.position.set(0,0.1,0); g.add(ug);
+   // luxury SUV (X5-class) silhouette: tall, boxy, long roofline, upright grille, big wheels — generic, no badging
+   const body=new THREE.Mesh(new THREE.BoxGeometry(2.06,0.95,4.7),paint);body.position.y=1.05;body.castShadow=true;g.add(body);
+   const clad=new THREE.Mesh(new THREE.BoxGeometry(2.12,0.5,4.74),dark);clad.position.y=0.62;g.add(clad);
+   const greenhouse=new THREE.Mesh(new THREE.BoxGeometry(1.86,0.66,2.9),glass);greenhouse.position.set(0,1.62,0.2);g.add(greenhouse);
+   const roof=new THREE.Mesh(new THREE.BoxGeometry(1.9,0.12,2.6),paint);roof.position.set(0,1.96,0.2);g.add(roof);
+   [-0.78,0.78].forEach(x=>{const rr=new THREE.Mesh(new THREE.BoxGeometry(0.08,0.06,2.4),dark);rr.position.set(x,2.04,0.2);g.add(rr);});
+   const hood=new THREE.Mesh(new THREE.BoxGeometry(2.0,0.4,1.0),paint);hood.position.set(0,1.32,-1.95);g.add(hood);
+   const grille=new THREE.Mesh(new THREE.BoxGeometry(1.5,0.7,0.08),new THREE.MeshStandardMaterial({color:0x050505,metalness:0.8,roughness:0.3}));grille.position.set(0,1.0,-2.36);g.add(grille);
+   [-0.34,0.34].forEach(x=>{const k=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.62,0.05),new THREE.MeshStandardMaterial({color:0x111,metalness:0.9,roughness:0.25}));k.position.set(x,1.0,-2.4);g.add(k);
+     const chrome=new THREE.Mesh(new THREE.BoxGeometry(0.56,0.68,0.04),rimM);chrome.position.set(x,1.0,-2.385);g.add(chrome);});
+   const wg=new THREE.CylinderGeometry(0.6,0.6,0.44,22);
+   [[-1.04,-1.55],[1.04,-1.55],[-1.04,1.55],[1.04,1.55]].forEach(([x,z])=>{const w=new THREE.Mesh(wg,wm);w.rotation.z=Math.PI/2;w.position.set(x,0.6,z);w.castShadow=true;g.add(w);
+     const r=new THREE.Mesh(new THREE.CylinderGeometry(0.32,0.32,0.46,7),rimM);r.rotation.z=Math.PI/2;r.position.set(x,0.6,z);g.add(r);});
+   const tl=new THREE.Mesh(new THREE.BoxGeometry(1.86,0.2,0.08),new THREE.MeshStandardMaterial({color:0x330000,emissive:0xff1418,emissiveIntensity:3}));tl.position.set(0,1.15,2.36);g.add(tl);
+   const hb=new THREE.Mesh(new THREE.BoxGeometry(1.7,0.16,0.08),new THREE.MeshStandardMaterial({color:0xffffff,emissive:0xdfeaff,emissiveIntensity:3}));hb.position.set(0,1.2,-2.36);g.add(hb);
+   const under=new THREE.Mesh(new THREE.BoxGeometry(2.1,0.05,4.6),new THREE.MeshStandardMaterial({color:0x000000,emissive:0x16e0ff,emissiveIntensity:2.2}));under.position.y=0.34;g.add(under);
+   const ug=new THREE.PointLight(0x16e0ff,1.6,10); ug.position.set(0,0.2,0); g.add(ug);
+   return g;
  }
+ const body=new THREE.Mesh(new THREE.BoxGeometry(1.9,0.5,4.2),paint);body.position.y=0.62;body.castShadow=true;g.add(body);
+ const cabin=new THREE.Mesh(new THREE.BoxGeometry(1.6,0.5,1.9),glass);cabin.position.set(0,1.05,0.2);g.add(cabin);
+ const wg=new THREE.CylinderGeometry(0.44,0.44,0.4,16);
+ [[-1.0,-1.4],[1.0,-1.4],[-1.0,1.4],[1.0,1.4]].forEach(([x,z])=>{const w=new THREE.Mesh(wg,wm);w.rotation.z=Math.PI/2;w.position.set(x,0.44,z);w.castShadow=true;g.add(w);});
+ const tl=new THREE.Mesh(new THREE.BoxGeometry(1.7,0.16,0.08),new THREE.MeshStandardMaterial({color:0x330000,emissive:0xff1418,emissiveIntensity:2.6}));tl.position.set(0,0.66,2.12);g.add(tl);
  return g;}
 const player=makeCar(0xd11f2f,true); player.position.set(0,0,4); scene.add(player);
 const tgt=new THREE.Object3D();tgt.position.set(0,0,-36);player.add(tgt);
-function head(x){const s=new THREE.SpotLight(0xfff1de,2.4,95,Math.PI/7.5,0.5,1.2);s.position.set(x,0.9,-1.9);s.target=tgt;player.add(s);}
+function head(x){const s=new THREE.SpotLight(0xfff1de,2.4,95,Math.PI/7.5,0.5,1.2);s.position.set(x,1.2,-2.0);s.target=tgt;player.add(s);}
 head(-0.7);head(0.7);
 
 // ---- neon city (denser) + billboards ----
